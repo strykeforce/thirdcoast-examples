@@ -1,0 +1,62 @@
+plugins {
+    id "java"
+    id "idea"
+    id "net.ltgt.apt-idea" version "0.15"
+    id "jaci.openrio.gradle.GradleRIO" version "2018.03.06"
+}
+
+def TEAM = 2767
+def ROBOT_CLASS = "org.example.swerve.Robot"
+
+deploy {
+    targets {
+        target("roborio", jaci.openrio.gradle.frc.RoboRIO) {
+            team = TEAM
+        }
+    }
+    artifacts {
+        artifact('frcJava', jaci.openrio.gradle.frc.FRCJavaArtifact) {
+            targets << "roborio"
+        }
+    }
+}
+
+repositories {
+    jcenter()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // nanohttpd
+    mavenLocal()
+}
+
+dependencies {
+    compile wpilib()
+    compile ctre()
+    compile navx()
+    compile 'org.strykeforce.thirdcoast:core:18.5.0'
+    compile 'ch.qos.logback:logback-classic:1.2.3'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.14.1'
+    compileOnly 'org.jetbrains:annotations:15.0'
+    compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
+}
+
+def robotManifest = {
+    attributes 'Main-Class': 'edu.wpi.first.wpilibj.RobotBase'
+    attributes 'Robot-Class': frc.robotClass
+}
+
+jar {
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    manifest jaci.openrio.gradle.GradleRIOPlugin.javaManifest(ROBOT_CLASS)
+}
+
+idea {
+    module {
+        apt {
+            addGeneratedSourcesDirs = true
+            addAptDependencies = false
+        }
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.2.1'
+}
