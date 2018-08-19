@@ -5,10 +5,11 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import org.example.swerve.controls.Controls;
+import org.example.swerve.controls.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.strykeforce.thirdcoast.swerve.SwerveDrive;
-import org.strykeforce.thirdcoast.talon.Talons;
 import org.strykeforce.thirdcoast.telemetry.TelemetryService;
 
 /** Third Coast swerve drive demo robot that uses Dagger dependency injection. */
@@ -28,35 +29,15 @@ public class Robot extends IterativeRobot {
   private TelemetryService telemetryService;
   private SwerveDrive swerve;
   private Controls controls;
-  private final Trigger gyroResetButton =
-      new Trigger() {
-        @Override
-        public boolean get() {
-          return controls.getResetButton();
-        }
-
-        @Override
-        public String toString() {
-          return "gyro reset button";
-        }
-      };
-  private final Trigger alignWheelsButton =
-      new Trigger() {
-        @Override
-        public boolean get() {
-          return controls.getGamepadBackButton() && controls.getGamepadStartButton();
-        }
-
-        @Override
-        public String toString() {
-          return "wheel alignment button combination";
-        }
-      };
+  private Trigger gyroResetButton;
 
   @Override
   public void robotInit() {
     logger.info("Robot is initializing");
+
     controls = getComponent().controls();
+    gyroResetButton = getComponent().gyroResetButton();
+
     swerve = getComponent().swerveDrive();
     telemetryService = getComponent().telemetryService();
     swerve.registerWith(telemetryService);
@@ -86,20 +67,7 @@ public class Robot extends IterativeRobot {
   }
 
   @Override
-  public void disabledInit() {
-    Talons.dump(swerve.getWheels()[0].getAzimuthTalon());
-  }
-
-  @Override
-  public void disabledPeriodic() {
-    if (alignWheelsButton.hasActivated()) {
-      swerve.saveAzimuthPositions();
-      swerve.zeroAzimuthEncoders();
-      String msg = "drive wheels were re-aligned";
-      logger.info(msg);
-      DriverStation.reportWarning(msg, false);
-    }
-  }
+  public void disabledInit() {}
 
   private double applyDeadband(double input) {
     if (Math.abs(input) < 0.05) {

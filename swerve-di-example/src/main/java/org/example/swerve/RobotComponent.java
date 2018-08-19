@@ -4,11 +4,12 @@ import dagger.BindsInstance;
 import dagger.Component;
 import java.net.URL;
 import javax.inject.Singleton;
+import org.example.swerve.controls.Controls;
+import org.example.swerve.controls.GyroResetButton;
 import org.strykeforce.thirdcoast.swerve.GraphableSwerveDriveModule;
 import org.strykeforce.thirdcoast.swerve.GyroModule;
 import org.strykeforce.thirdcoast.swerve.SwerveDrive;
 import org.strykeforce.thirdcoast.swerve.WheelModule;
-import org.strykeforce.thirdcoast.talon.Talons;
 import org.strykeforce.thirdcoast.telemetry.NetworkModule;
 import org.strykeforce.thirdcoast.telemetry.TelemetryService;
 
@@ -25,6 +26,8 @@ import org.strykeforce.thirdcoast.telemetry.TelemetryService;
 interface RobotComponent {
 
   Controls controls();
+
+  GyroResetButton gyroResetButton();
 
   SwerveDrive swerveDrive();
 
