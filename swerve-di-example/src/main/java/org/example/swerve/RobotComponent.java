@@ -30,8 +30,6 @@ interface RobotComponent {
 
   TelemetryService telemetryService();
 
-  Talons talons();
-
   @Component.Builder
   interface Builder {
 

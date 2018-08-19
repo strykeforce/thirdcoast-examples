@@ -11,12 +11,20 @@ import org.strykeforce.thirdcoast.swerve.SwerveDrive;
 import org.strykeforce.thirdcoast.talon.Talons;
 import org.strykeforce.thirdcoast.telemetry.TelemetryService;
 
-/** Third Coast swerve drive demo robot. */
+/** Third Coast swerve drive demo robot that uses Dagger dependency injection. */
 public class Robot extends IterativeRobot {
 
   static final Logger logger = LoggerFactory.getLogger(Robot.class);
 
+  /** Configuration file CONFIG is tried first for swerve drive Talon configurations. */
+  private static final String CONFIG = "/home/lvuser/swerve.toml";
+
+  /** If CONFIG is missing, then JAR file DEFAULT_CONFIG will be used. */
+  private static final String DEFAULT_CONFIG = "/META-INF/settings.toml";
+
+  /** Use getConfig() to access this part of the Dagger dependency injection configuration. */
   private RobotComponent component;
+
   private TelemetryService telemetryService;
   private SwerveDrive swerve;
   private Controls controls;
@@ -100,18 +108,31 @@ public class Robot extends IterativeRobot {
     return input;
   }
 
+  /**
+   * Initialize dependency injection if needed and return the Dagger component used to get
+   * configured robot components. This will first look for a config file in "CONFIG" and fall back
+   * to a default config in the JAR file.
+   *
+   * @return the Dagger robot component.
+   */
   private RobotComponent getComponent() {
-    if (component == null) {
-      //      URL config = this.getClass().getResource("/META-INF/robot/settings.toml");
-      URL config = null;
+    if (component != null) return component;
+
+    URL config = null;
+
+    File f = new File(CONFIG);
+    if (f.exists() && !f.isDirectory()) {
       try {
-        config = new File("/home/lvuser/thirdcoast.toml").toURI().toURL();
+        config = f.toURI().toURL();
       } catch (MalformedURLException e) {
-        e.printStackTrace();
+        logger.error(CONFIG, e);
       }
-      logger.info("reading settings from '{}'", config);
-      component = DaggerRobotComponent.builder().config(config).build();
     }
+
+    if (config == null) config = this.getClass().getResource(DEFAULT_CONFIG);
+
+    logger.info("reading settings from '{}'", config);
+    component = DaggerRobotComponent.builder().config(config).build();
     return component;
   }
 }
