@@ -1,0 +1,36 @@
+[THIRDCOAST.SWERVE]
+  length        = 20.625 # wheelbase length
+  width         = 26.125 # wheelbase width
+  enableGyroLogging = false # turn this off if too noisy
+
+[[TALON]]
+  name = "azimuth"
+  talonIds = [0, 1, 2, 3]
+  [TALON.selectedFeedbackSensor]
+    feedbackDevice = "CTRE_MagEncoder_Relative"
+  [TALON.currentLimit]
+    continuous = 10
+    peak = 0
+    peakDuration = 0
+  [TALON.motionMagic]
+    acceleration = 0
+    cruiseVelocity = 0
+  [[TALON.closedLoopProfile]] # slot 0 MotionMagic, normal
+    pGain = 0.0 # replace these with values for your azimuth
+    iGain = 0.0
+    dGain = 0.0
+    fGain = 0.0
+    iZone = 0
+    allowableClosedLoopError = 0
+
+[[TALON]]
+ name = "drive"
+ talonIds = [10, 11, 12, 13]
+ [TALON.selectedFeedbackSensor]
+   feedbackDevice = "CTRE_MagEncoder_Relative"
+ [TALON.output]
+   neutralMode = "Brake"
+ [TALON.currentLimit]
+   continuous = 40
+   peak = 0
+   peakDuration = 0
