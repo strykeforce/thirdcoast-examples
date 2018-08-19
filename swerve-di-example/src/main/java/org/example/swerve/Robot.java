@@ -23,31 +23,27 @@ public class Robot extends IterativeRobot {
   /** If CONFIG is missing, then JAR file DEFAULT_CONFIG will be used. */
   private static final String DEFAULT_CONFIG = "/META-INF/settings.toml";
 
-  /** Use getConfig() to access this part of the Dagger dependency injection configuration. */
+  /** Flight simulator joystick deadband. */
+  private static final double DEADBAND = 0.05;
+
+  /** See getConfig() below. */
   private RobotComponent component;
 
-  private TelemetryService telemetryService;
   private SwerveDrive swerve;
   private Controls controls;
   private Trigger gyroResetButton;
 
   @Override
   public void robotInit() {
-    logger.info("Robot is initializing");
-
     controls = getComponent().controls();
-    gyroResetButton = getComponent().gyroResetButton();
+    gyroResetButton = controls.getResetButton();
 
     swerve = getComponent().swerveDrive();
-    telemetryService = getComponent().telemetryService();
-    swerve.registerWith(telemetryService);
-    telemetryService.start();
     swerve.zeroAzimuthEncoders();
   }
 
   @Override
   public void teleopInit() {
-    logger.info("Robot is enabled in tele-op");
     swerve.stop();
   }
 
@@ -66,11 +62,9 @@ public class Robot extends IterativeRobot {
     swerve.drive(forward, strafe, azimuth);
   }
 
-  @Override
-  public void disabledInit() {}
-
+  /** Compensate for the joystick not returning perfectly to zero when in neutral position. */
   private double applyDeadband(double input) {
-    if (Math.abs(input) < 0.05) {
+    if (Math.abs(input) < DEADBAND) {
       return 0;
     }
     return input;

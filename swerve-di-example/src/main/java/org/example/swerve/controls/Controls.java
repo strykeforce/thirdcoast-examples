@@ -25,6 +25,15 @@ public class Controls {
   @Inject
   public Controls() {}
 
+  public Trigger getResetButton() {
+    return new Trigger() {
+      @Override
+      public boolean get() {
+        return driverController.getRawButton(DRIVER_RESET_BUTTON);
+      }
+    };
+  }
+
   /**
    * Return the driver controller left stick Y-axis position.
    *
@@ -50,15 +59,6 @@ public class Controls {
    */
   public double getAzimuth() {
     return driverController.getRawAxis(DRIVER_RIGHT_X_AXIS);
-  }
-
-  /**
-   * Return the "Reset" button on flight sim controller.
-   *
-   * @return true if the button is pressed
-   */
-  public boolean getResetButton() {
-    return driverController.getRawButton(DRIVER_RESET_BUTTON);
   }
 
 }
