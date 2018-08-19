@@ -10,7 +10,6 @@ import org.example.swerve.controls.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.strykeforce.thirdcoast.swerve.SwerveDrive;
-import org.strykeforce.thirdcoast.telemetry.TelemetryService;
 
 /** Third Coast swerve drive demo robot that uses Dagger dependency injection. */
 public class Robot extends IterativeRobot {
@@ -26,19 +25,27 @@ public class Robot extends IterativeRobot {
   /** Flight simulator joystick deadband. */
   private static final double DEADBAND = 0.05;
 
-  /** See getConfig() below. */
+  /** See {@code getConfig} below. */
   private RobotComponent component;
 
   private SwerveDrive swerve;
   private Controls controls;
   private Trigger gyroResetButton;
 
+  /**
+   * Initialize the robot. We use the dependency injection framework to get configured controls and
+   * swerve drive. See {@link org.strykeforce.thirdcoast.swerve.SwerveDrive} for configuration
+   * details.
+   */
   @Override
   public void robotInit() {
     controls = getComponent().controls();
     gyroResetButton = controls.getResetButton();
-
     swerve = getComponent().swerveDrive();
+
+    // offset the relative azimuth encoders by the difference between the stored zero position and
+    // the absolute position. Stored zero positions are stored in the WPILib preference under
+    // the keys: "SwerveDrive/wheel.0" through "SwerveDrive/wheel.3".
     swerve.zeroAzimuthEncoders();
   }
 

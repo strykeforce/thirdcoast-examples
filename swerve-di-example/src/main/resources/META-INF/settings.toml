@@ -16,7 +16,7 @@
     acceleration = 0
     cruiseVelocity = 0
   [[TALON.closedLoopProfile]] # slot 0 MotionMagic, normal
-    pGain = 0.0
+    pGain = 0.0 # replace these with values for your azimuth
     iGain = 0.0
     dGain = 0.0
     fGain = 0.0
