@@ -1,3 +1,5 @@
+import jaci.openrio.gradle.GradleRIOPlugin
+
 plugins {
     id "java"
     id "idea"
@@ -24,7 +26,6 @@ deploy {
 repositories {
     jcenter()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // nanohttpd
-    mavenLocal()
 }
 
 dependencies {
@@ -45,7 +46,7 @@ def robotManifest = {
 
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest jaci.openrio.gradle.GradleRIOPlugin.javaManifest(ROBOT_CLASS)
+    manifest GradleRIOPlugin.javaManifest(ROBOT_CLASS)
 }
 
 idea {
