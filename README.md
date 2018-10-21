@@ -17,7 +17,7 @@ In addition to other updates that have made them obsolete, they demonstrate our 
 
 ## swerve-dagger-example
 
-This project demonstrates our 2018 method of configuring and using our Third Coast swerve drive. Various updates (see talon-example) have made this obsolete.
+This project demonstrates our 2018 method of configuring and using our Third Coast swerve drive. Various updates (see [talon-example](#talon-example)) have made this obsolete.
 
 
 ## talon-example
