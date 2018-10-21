@@ -6,7 +6,7 @@ Examples of Third Coast library use.
 
 ## telemetry-example
 
-Gradle project with a simple example of using Third Coast telemetry on a Talon.
+Gradle project with a simple example of using Third Coast telemetry on a TalonSRX.
 
 # Obsolete example projects
 

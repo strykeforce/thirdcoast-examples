@@ -4,11 +4,8 @@ import jaci.openrio.gradle.frc.RoboRIO
 
 plugins {
     id 'java'
-    id 'eclipse'
-    id 'groovy'
+    id 'idea'
     id 'jaci.openrio.gradle.GradleRIO' version '2018.03.06'
-    id 'net.ltgt.apt-idea' version '0.15'
-    id 'net.ltgt.errorprone' version "0.0.13"
 }
 
 def TEAM = 2767
@@ -30,24 +27,31 @@ deploy {
 repositories {
     jcenter()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // nanohttpd
+    maven { url = "https://dl.bintray.com/kotlin/kotlin-eap" } // FIXME
+    mavenLocal()
+}
+
+wpi {
+    ctreVersion = "5.7.1.0"
 }
 
 dependencies {
     compile wpilib()
     compile ctre()
-    compile navx()
-    compile pathfinder()
-    compile 'org.strykeforce.thirdcoast:core:18.5.0'
-    compile 'com.google.dagger:dagger:2.14.1'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.14.1'
-    annotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta5'
-    compileOnly 'org.jetbrains:annotations:15.0'
-    compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
+    compile 'org.strykeforce.thirdcoast:telemetry:18.7.0'
+    compile 'ch.qos.logback:logback-classic:1.2.3'
 }
 
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     manifest GradleRIOPlugin.javaManifest(ROBOT_CLASS)
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
 }
 
 task wrapper(type: Wrapper) {
