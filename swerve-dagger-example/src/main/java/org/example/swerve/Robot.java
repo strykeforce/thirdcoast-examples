@@ -2,14 +2,15 @@ package org.example.swerve;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import org.example.swerve.controls.Controls;
 import org.example.swerve.controls.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.strykeforce.thirdcoast.swerve.SwerveDrive;
+
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /** Third Coast swerve drive demo robot that uses Dagger dependency injection. */
 public class Robot extends IterativeRobot {
