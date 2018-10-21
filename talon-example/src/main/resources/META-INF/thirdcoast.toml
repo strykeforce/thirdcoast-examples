@@ -1,0 +1,14 @@
+[THIRDCOAST.TALONS]
+  timeout = 10
+  summarizeErrors = false
+  logConfig = true
+
+[[TALON]]
+ name = "test-talon"
+ talonIds = [1]
+ [TALON.selectedFeedbackSensor]
+   feedbackDevice = "CTRE_MagEncoder_Relative"
+ [TALON.currentLimit]
+   continuous = 10
+   peak = 0
+   peakDuration = 0
