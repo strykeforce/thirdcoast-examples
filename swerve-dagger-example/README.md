@@ -1,4 +1,4 @@
-# swerve-di-example
+# swerve-dagger-example
 
 **This example project is no longer current.**
 
