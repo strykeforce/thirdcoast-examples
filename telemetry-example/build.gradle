@@ -26,7 +26,6 @@ deploy {
 
 repositories {
     jcenter()
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // nanohttpd
     maven { url = "https://dl.bintray.com/kotlin/kotlin-eap" } // FIXME
     mavenLocal()
 }
@@ -38,7 +37,7 @@ wpi {
 dependencies {
     compile wpilib()
     compile ctre()
-    compile 'org.strykeforce.thirdcoast:telemetry:18.7.0'
+    compile 'org.strykeforce.thirdcoast:telemetry:18.7.1'
     compile 'ch.qos.logback:logback-classic:1.2.3'
 }
 

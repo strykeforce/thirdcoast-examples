@@ -1,0 +1,21 @@
+<configuration>
+
+  <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- encoders are assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+    <target>System.err</target>
+    <encoder>
+      <pattern>%-23(%d{HH:mm:ss.SSS} [%thread]) %highlight(%-5level) %logger{32} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="org.strykeforce.thirdcoast" level="DEBUG"/>
+  <logger name="org.eclipse.jetty" level="INFO"/>
+
+  <!-- Strictly speaking, the level attribute is not necessary since -->
+  <!-- the level of the root level is set to DEBUG by default.       -->
+  <root level="DEBUG">
+    <appender-ref ref="STDERR" />
+  </root>
+
+</configuration>
