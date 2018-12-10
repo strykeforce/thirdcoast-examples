@@ -26,8 +26,6 @@ deploy {
 
 repositories {
     jcenter()
-    maven { url = "https://dl.bintray.com/kotlin/kotlin-eap" } // FIXME
-    mavenLocal()
 }
 
 wpi {
@@ -37,7 +35,7 @@ wpi {
 dependencies {
     compile wpilib()
     compile ctre()
-    compile 'org.strykeforce.thirdcoast:telemetry:18.7.1'
+    compile 'org.strykeforce.thirdcoast:telemetry:18.7.3'
     compile 'ch.qos.logback:logback-classic:1.2.3'
 }
 
@@ -51,8 +49,4 @@ idea {
         downloadJavadoc = true
         downloadSources = true
     }
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.4.1'
 }
