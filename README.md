@@ -6,7 +6,7 @@ Examples of Third Coast library use. See [thirdcoast](https://github.com/strykef
 
 ## swerve-example
 
-Gradle project with an example of Third Coast swerve drive that drives in teleop.
+Gradle project created with [cookiecutter-robot](https://github.com/strykeforce/cookiecutter-robot) with an example of Third Coast swerve drive driving in teleop.
 
 ## telemetry-example
 
