@@ -1,6 +1,6 @@
 # thirdcoast-examples
 
-Examples of Third Coast library use.
+Examples of Third Coast library use. See [thirdcoast](https://github.com/strykeforce/thirdcoast/) repo.
 
 # The example projects
 
