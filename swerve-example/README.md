@@ -1,6 +1,8 @@
 # Swerve Example
 
-This example implements the Third Coast Swerve drive in Java. It requires a NavX installed on the roboRIO MXP port.
+This example implements the Third Coast Swerve drive in Java. It was created with [cookiecutter-robot](https://github.com/strykeforce/cookiecutter-robot).
+
+This example requires a NavX installed on the roboRIO MXP port.
 
 
 **Note:** This robot **will not drive** until configured, see below.
