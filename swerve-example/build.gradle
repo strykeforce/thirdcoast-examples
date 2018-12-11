@@ -1,0 +1,67 @@
+import edu.wpi.first.gradlerio.GradleRIOPlugin
+import edu.wpi.first.gradlerio.frc.FRCJavaArtifact
+import edu.wpi.first.gradlerio.frc.RoboRIO
+
+plugins {
+
+    id "java"
+
+    id "edu.wpi.first.GradleRIO" version "2019.0.0-alpha-3"
+    id "idea"
+}
+
+def TEAM = 2767
+def ROBOT_CLASS = "frc.team2767.swerveexample.Robot"
+
+repositories {
+    jcenter()
+}
+
+wpi {
+  ctreVersion = "5.7.1.0"
+}
+
+dependencies {
+
+    compile wpilib()
+    compile ctre()
+    compile navx()
+
+    compile "org.strykeforce.thirdcoast:swerve:${thirdcoastVersion}"
+
+
+
+
+}
+
+
+
+def robotManifest = {
+    attributes "Main-Class": "edu.wpi.first.wpilibj.RobotBase"
+    attributes "Robot-Class": frc.robotClass
+}
+
+jar {
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    manifest GradleRIOPlugin.javaManifest(ROBOT_CLASS)
+}
+
+deploy {
+    targets {
+        target("roborio", RoboRIO) {
+            team = TEAM
+        }
+    }
+    artifacts {
+        artifact("frcJava", FRCJavaArtifact) {
+            targets << "roborio"
+        }
+    }
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
