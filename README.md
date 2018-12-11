@@ -4,6 +4,10 @@ Examples of Third Coast library use.
 
 # The example projects
 
+## swerve-example
+
+Gradle project with an example of Third Coast swerve drive that drives in teleop.
+
 ## telemetry-example
 
 Gradle project with a simple example of using Third Coast telemetry on a TalonSRX.
