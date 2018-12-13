@@ -17,7 +17,8 @@ repositories {
 
 dependencies {
     compile wpilib()
-    compile "org.strykeforce.thirdcoast:telemetry:${thirdcoastVersion}"
+    compile "org.strykeforce.thirdcoast:telemetry:18.7.4"
+    compile 'org.slf4j:slf4j-simple:1.7.25'
 }
 
 
