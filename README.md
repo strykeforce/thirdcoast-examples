@@ -2,7 +2,7 @@
 
 Examples of Third Coast library use. See [thirdcoast](https://github.com/strykeforce/thirdcoast/) repo.
 
-# The example projects
+# The Example Projects
 
 ## swerve-example
 
@@ -12,7 +12,11 @@ Gradle project created with [cookiecutter-robot](https://github.com/strykeforce/
 
 Gradle project with a simple example of using Third Coast telemetry on a TalonSRX.
 
-# Obsolete example projects
+## custom-item-example
+
+Gradle project that demonstrates how to use Third Coast Telemetry to instrument a mock robot subsystem called `GraphableSubsystem`.
+
+# Obsolete Example Projects
 
 These example projects are out of date and no longer actively maintained.
 
