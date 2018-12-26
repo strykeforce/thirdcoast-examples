@@ -1,6 +1,7 @@
 # thirdcoast-examples
 
-Examples of Third Coast library use. See [thirdcoast](https://github.com/strykeforce/thirdcoast/) repo.
+Examples of [Stryke Force Third Coast Java Libraries](https://github.com/strykeforce/thirdcoast) use. See  other engineering resources at [strykeforce.org](https://strykeforce.org/resources/).
+
 
 # The Example Projects
 
