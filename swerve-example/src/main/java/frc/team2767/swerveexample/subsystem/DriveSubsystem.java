@@ -32,8 +32,19 @@ public class DriveSubsystem extends Subsystem {
     swerve.setDriveMode(mode);
   }
 
+  public void zeroAzimuthEncoders() {
+    swerve.zeroAzimuthEncoders();
+  }
+
   public void drive(double forward, double strafe, double azimuth) {
     swerve.drive(forward, strafe, azimuth);
+  }
+
+  public void zeroGyro() {
+    AHRS gyro = swerve.getGyro();
+    gyro.setAngleAdjustment(0);
+    double adj = gyro.getAngle() % 360;
+    gyro.setAngleAdjustment(-adj);
   }
 
   // Swerve configuration
@@ -51,24 +62,20 @@ public class DriveSubsystem extends Subsystem {
   }
 
   private Wheel[] getWheels() {
-
-    // TODO: WILL NOT DRIVE - configure Motion Magic closed-loop control parameters for your azimuth motors
     TalonSRXConfiguration azimuthConfig = new TalonSRXConfiguration();
     azimuthConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.CTRE_MagEncoder_Relative;
     azimuthConfig.continuousCurrentLimit = 10;
     azimuthConfig.peakCurrentDuration = 0;
     azimuthConfig.peakCurrentLimit = 0;
-
-    azimuthConfig.slot_0.kP = 0.0;
-    azimuthConfig.slot_0.kI = 0.0;
-    azimuthConfig.slot_0.kD = 0.0;
-    azimuthConfig.slot_0.kF = 0.0;
-    azimuthConfig.slot_0.integralZone = 0;
-    azimuthConfig.slot_0.allowableClosedloopError = 0;
+    azimuthConfig.slot0.kP = 10.0;
+    azimuthConfig.slot0.kI = 0.0;
+    azimuthConfig.slot0.kD = 100.0;
+    azimuthConfig.slot0.kF = 0.0;
+    azimuthConfig.slot0.integralZone = 0;
+    azimuthConfig.slot0.allowableClosedloopError = 0;
     azimuthConfig.motionAcceleration = 10_000;
     azimuthConfig.motionCruiseVelocity = 800;
 
-    // TODO: verify Percent Output configuration for your drive motors
     TalonSRXConfiguration driveConfig = new TalonSRXConfiguration();
     driveConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.CTRE_MagEncoder_Relative;
     driveConfig.continuousCurrentLimit = 40;

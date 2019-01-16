@@ -1,62 +1,53 @@
-import edu.wpi.first.gradlerio.GradleRIOPlugin
-import edu.wpi.first.gradlerio.frc.FRCJavaArtifact
-import edu.wpi.first.gradlerio.frc.RoboRIO
-
 plugins {
-
     id "java"
-
-    id "edu.wpi.first.GradleRIO" version "2019.0.0-alpha-3"
+    id "edu.wpi.first.GradleRIO" version "2019.1.1"
     id "idea"
+    id "com.diffplug.gradle.spotless" version "3.16.0"
 }
 
-def TEAM = 2767
-def ROBOT_CLASS = "frc.team2767.swerveexample.Robot"
+
+def ROBOT_MAIN_CLASS = "frc.team2767.swerveexample.Main"
+
+
+deploy {
+    targets {
+        roboRIO("roborio") {
+            team = frc.getTeamNumber() // loaded from .wpilib/wpilib_preferences.json
+        }
+    }
+    artifacts {
+        frcJavaArtifact("frcJava") {
+            targets << "roborio"
+            debug = frc.getDebugOrDefault(false)
+        }
+        // Built in artifact to deploy arbitrary files to the roboRIO.
+        fileTreeArtifact("frcStaticFileDeploy") {
+            // The directory below is the local directory to deploy
+            files = fileTree(dir: "src/main/deploy")
+            // Deploy to RoboRIO target, into /home/lvuser/deploy
+            targets << "roborio"
+            directory = "/home/lvuser/deploy"
+        }
+    }
+}
 
 repositories {
     jcenter()
 }
 
-wpi {
-  ctreVersion = "5.7.1.0"
-}
-
 dependencies {
-
-    compile wpilib()
-    compile ctre()
-    compile navx()
-
+    compile wpi.deps.wpilib()
+    compile wpi.deps.vendor.java()
+    nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
+    nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
     compile "org.strykeforce.thirdcoast:swerve:${thirdcoastVersion}"
-
-
-
-
 }
 
 
-
-def robotManifest = {
-    attributes "Main-Class": "edu.wpi.first.wpilibj.RobotBase"
-    attributes "Robot-Class": frc.robotClass
-}
 
 jar {
-    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    manifest GradleRIOPlugin.javaManifest(ROBOT_CLASS)
-}
-
-deploy {
-    targets {
-        target("roborio", RoboRIO) {
-            team = TEAM
-        }
-    }
-    artifacts {
-        artifact("frcJava", FRCJavaArtifact) {
-            targets << "roborio"
-        }
-    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
 }
 
 idea {
@@ -65,3 +56,11 @@ idea {
         downloadSources = true
     }
 }
+
+
+spotless {
+  java {
+    googleJavaFormat()
+  }
+}
+

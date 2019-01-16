@@ -1,33 +1,34 @@
 package frc.team2767.swerveexample.command;
 
-import edu.wpi.first.wpilibj.command.Command;
-import frc.team2767.swerveexample.Robot;
-import frc.team2767.swerveexample.subsystem.DriveSubsystem;
-
 import static org.strykeforce.thirdcoast.swerve.SwerveDrive.DriveMode.TELEOP;
 
-public final class TeleOpDriveCommand extends Command {
+import edu.wpi.first.wpilibj.command.Command;
+import frc.team2767.swerveexample.Robot;
+import frc.team2767.swerveexample.control.DriverControls;
+import frc.team2767.swerveexample.subsystem.DriveSubsystem;
 
-  private final DriveSubsystem drive = Robot.DRIVE;
+public final class TeleOpDriveCommand extends Command {
+  private static final double DEADBAND = 0.05;
+
+  private static final DriveSubsystem swerve = Robot.DRIVE;
+  private static final DriverControls controls = Robot.CONTROLS.getDriverControls();
 
   public TeleOpDriveCommand() {
-    requires(drive);
+    requires(swerve);
   }
 
   @Override
   protected void initialize() {
-    drive.setDriveMode(TELEOP);
+    swerve.setDriveMode(TELEOP);
   }
 
   @Override
   protected void execute() {
-    // TODO: configure joystick controls
-    System.out.println("controls are not configured - robot will not drive!");
+    double forward = deadband(controls.getForward());
+    double strafe = deadband(controls.getStrafe());
+    double azimuth = deadband(controls.getYaw());
 
-    double forward = 0.0;
-    double strafe = 0.0;
-    double azimuth = 0.0;
-    drive.drive(forward, strafe, azimuth);
+    swerve.drive(forward, strafe, azimuth);
   }
 
   @Override
@@ -37,6 +38,11 @@ public final class TeleOpDriveCommand extends Command {
 
   @Override
   protected void end() {
-    drive.drive(0.0, 0.0, 0.0);
+    swerve.drive(0.0, 0.0, 0.0);
+  }
+
+  private double deadband(double value) {
+    if (Math.abs(value) < DEADBAND) return 0.0;
+    return value;
   }
 }
